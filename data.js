@@ -14,7 +14,7 @@ let userSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  excercises: [{description: String, duration: Number, date: Date}]
+  exercises: [{description: String, duration: Number, date: Date}]
 });
   
 let UserModel = mongoose.model('Users', userSchema)
@@ -23,7 +23,7 @@ let UserModel = mongoose.model('Users', userSchema)
 const createAndSaveUser = (userName, done) => {
   let user = UserModel({
     username: userName,
-    excercises: []
+    exercises: []
   });
 
   user.save(function(err, data){
@@ -39,11 +39,11 @@ const findUserByID = (userId, done) => {
   });
 }
 
-const addExcerciseByUserID = (userId, excercise, done) => {
+const addExerciseByUserID = (userId, exercise, done) => {
   findUserByID(userId, function(err, findedUser){
     console.log(userId);
     
-    findedUser.excercises.push(excercise);
+    findedUser.exercises.push(exercise);
 
     findedUser.save(function(err, data) {
       if (err) return done(err);
@@ -57,4 +57,4 @@ const addExcerciseByUserID = (userId, excercise, done) => {
 
 exports.UserModel = UserModel;
 exports.createAndSaveUser = createAndSaveUser;
-exports.addExcerciseByUserID = addExcerciseByUserID;
+exports.addExerciseByUserID = addExerciseByUserID;

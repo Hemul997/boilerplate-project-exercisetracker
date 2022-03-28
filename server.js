@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 });
 
 const createAndSaveUser = require(DB_PATH).createAndSaveUser;
-const addExcerciseByUserID = require(DB_PATH).addExcerciseByUserID;
+const addExerciseByUserID = require(DB_PATH).addExerciseByUserID;
 
 const listener = app.listen(process.env.PORT || 3000, () => {
   console.log('Your app is listening on port ' + listener.address().port)
@@ -45,7 +45,6 @@ app.post('/api/users', function(req, res, next){
 });
 
 
-
 app.post('/api/users/:_id?/exercises', function(req, res, next){
   let t = setTimeout(() => {
     next({ message: "timeout" });
@@ -54,9 +53,9 @@ app.post('/api/users/:_id?/exercises', function(req, res, next){
   sendedDate = String(req.body['date']);
   sendedDate.length == 0 ? sendedDate = Date.now() : sendedDate = new Date(sendDate); 
 
-  const excercise = {description: req.body['description'], duration: req.body['duration'], date: sendedDate};
+  const exercise = {description: req.body['description'], duration: req.body['duration'], date: sendedDate};
 
-  addExcerciseByUserID(req.body[':_id'], excercise, function(err, data) {
+  addExerciseByUserID(req.body[':_id'], exercise, function(err, data) {
     clearTimeout(t);
     if (err) {
       return next(err);
@@ -65,8 +64,8 @@ app.post('/api/users/:_id?/exercises', function(req, res, next){
       console.log("Missing `done()` argument");
       return next({ message: "Missing callback argument" });
     }
-    res.json({'_id': req._id, 'username': data.username, 'date': excercise.date, 'duration': excercise.duration
-      , 'description': excercise.description});
+    res.json({'_id': req._id, 'username': data.username, 'date': exercise.date
+      , 'duration': exercise.duration, 'description': exercise.description});
   });
 
 
